@@ -1,0 +1,131 @@
+conky.config = {
+
+	--Various settings
+
+	background = true, 							-- forked to background
+	cpu_avg_samples = 2,						-- The number of samples to average for CPU monitoring.
+	diskio_avg_samples = 10,					-- The number of samples to average for disk I/O monitoring.
+	double_buffer = true,						-- Use the Xdbe extension? (eliminates flicker)
+	if_up_strictness = 'address',				-- how strict if testing interface is up - up, link or address
+	net_avg_samples = 2,						-- The number of samples to average for net data
+	no_buffers = true,							-- Subtract (file system) buffers from used memory?
+	temperature_unit = 'celsius',				-- fahrenheit or celsius
+	text_buffer_size = 2048,					-- size of buffer for display of content of large variables - default 256
+	update_interval = 0.05,						-- update interval
+	imlib_cache_size = 0,                       -- disable image cache to get a new spotify cover per song
+	
+	--Placement
+
+	alignment = 'top_right',						-- top_left,top_middle,top_right,bottom_left,bottom_middle,bottom_right,
+												-- middle_left,middle_middle,middle_right,none
+	--Arch Duoscreen
+	gap_x = -370,
+	--gap_x = 50,									-- pixels between right or left border
+	gap_y = 41,									-- pixels between bottom or left border
+	minimum_height = 600,						-- minimum height of window
+	minimum_width = 350,						-- minimum width of window
+	maximum_width = 350,						-- maximum width of window
+
+	--Graphical
+
+	border_inner_margin = 10, 					-- margin between border and text
+	border_outer_margin = 5, 					-- margin between border and edge of window
+	border_width = 0, 							-- border width in pixels
+	default_bar_width = 80,						-- default is 0 - full width
+	default_bar_height = 10,					-- default is 6
+	default_gauge_height = 25,					-- default is 25
+	default_gauge_width =40,					-- default is 40
+	default_graph_height = 40,					-- default is 25
+	default_graph_width = 0,					-- default is 0 - full width
+	default_shade_color = '#000000',			-- default shading colour
+	default_outline_color = '#000000',			-- default outline colour
+	draw_borders = false,						-- draw borders around text
+	draw_graph_borders = true,					-- draw borders around graphs
+	draw_shades = false,						-- draw shades
+	draw_outline = false,						-- draw outline
+	stippled_borders = 0,						-- dashing the border
+
+	--Textual
+
+	extra_newline = false,						-- extra newline at the end - for asesome's wiboxes
+	format_human_readable = true,				-- KiB, MiB rather then number of bytes
+	font = 'Dina:size=10',  					-- font for complete conky unless in code defined
+	max_text_width = 0,							-- 0 will make sure line does not get broken if width too smal
+	max_user_text = 16384,						-- max text in conky default 16384
+	override_utf8_locale = true,				-- force UTF8 requires xft
+	short_units = true,							-- shorten units from KiB to k
+	top_name_width = 21,						-- width for $top name value default 15
+	top_name_verbose = false,					-- If true, top name shows the full command line of  each  process - Default value is false.
+	uppercase = false,							-- uppercase or not
+	use_spacer = 'none',						-- adds spaces around certain objects to align - default none
+	use_xft = true,								-- xft font - anti-aliased font
+	xftalpha = 1,								-- alpha of the xft font - between 0-1
+
+	--Windows
+
+	own_window = true,							-- create your own window to draw
+	own_window_argb_value = 115,			    -- real transparency - composite manager required 0-255
+	own_window_argb_visual = true,				-- use ARGB - composite manager required
+	own_window_class = 'Conky',					-- manually set the WM_CLASS name for use with xprop
+	own_window_colour = '000000',				-- set colour if own_window_transparent no
+	own_window_hints = 'undecorated,below,above,sticky,skip_taskbar,skip_pager',  -- if own_window true - just hints - own_window_type sets it
+	own_window_transparent = false,				-- if own_window_argb_visual is true sets background opacity 0%
+	own_window_title = 'system_conky',			-- set the name manually  - default conky "hostname"
+	own_window_type = 'desktop',				-- if own_window true options are: normal/override/dock/desktop/panel
+
+
+    --Colours
+
+    default_color = '#ff0000',                  -- default color and border color
+    color2 = '#BD93F9',
+    color3 = '#05FFA1',
+    color1 = '#6272A4',
+    color4 = '#FFFF80',
+    color5 = '#9580FF',
+    color6 = '#AA0000',
+
+    -- Signal Colours
+    color9 = '#1F7411',                        -- green
+    color8 = '#FFA726',                        -- orange
+    color7 = '#6272A4',                        -- firebrick
+
+
+	--Lua
+
+
+};
+conky.text = [[
+${color5}${alignc 0}${font Space age:size=30}${time %I:%M:%S %p}
+${font Space age:size=15}${voffset -20}${alignc}${time %A, %d %b}
+${color2}${font Roboto:size=10}${color3} ${freq}MHz ${color2}${font Roboto:size=10}${color3} $alignr${execi 10 sensors | grep 'Core 0' | awk {'print $3'}}
+${color2}${color7} ${alignr}${cpugraph 30,350 05FFA1 FF0000 00FF00 F1544B -t}
+${color}${offset 8}${voffset -12}
+${color7}${cpugraph cpu1 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${cpugraph cpu2 30,170 9580FF FF5555 00FF00 6272A4 -t}
+${color7}${cpugraph cpu3 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${cpugraph cpu4 30,170 9580FF FF5555 00FF00 6272A4 -t}
+${color7}${cpugraph cpu5 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${cpugraph cpu6 30,170 9580FF FF5555 00FF00 6272A4 -t}
+${color7}${cpugraph cpu7 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${cpugraph cpu8 30,170 9580FF FF5555 00FF00 6272A4 -t}
+${color7}${cpugraph cpu9 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${cpugraph cpu10 30,170 9580FF FF5555 00FF00 6272A4 -t}
+${color7}${cpugraph cpu11 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${cpugraph cpu12 30,170 9580FF FF5555 00FF00 6272A4 -t}
+
+${color}${offset 0}${voffset -12}${color3}RAM: ${color1}${alignr}${offset -10}${mem} / ${memmax}
+${alignr}${memgraph 30,350 -t}
+${color3}${offset 0}SWAP:${color1} ${alignr}${offset -10}${swap} / ${swapmax}
+${alignr}${swapbar 20,350 -t}
+${color2}Top Processes${goto 222}CPU${goto 274}RAM${color3}
+${voffset 4}     1  -  ${top_mem name 1}${alignr}${goto 170} ${goto 222}${top_mem cpu 1} ${goto 274}${top_mem mem_res 1}
+     2  -  ${top_mem name 2}${alignr}${goto 170} ${goto 222}${top_mem cpu 2} ${goto 274}${top_mem mem_res 2}
+     3  -  ${top_mem name 3}${alignr}${goto 170} ${goto 222}${top_mem cpu 3} ${goto 274}${top_mem mem_res 3}
+
+${voffset 1}${color1}NVME: ${color3}${execi 5 sensors | grep Composite | awk '{print $2}'}${goto 170}${color1} ${alignr}${color3}${fs_used /}${color1}${color3} / ${fs_free /}
+${color1}${diskiograph_read nvme0n1 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${diskiograph_write nvme0n1 30,170 9580FF FF5555 00FF00 6272A4 -t}
+${voffset 1}${color1}Read: ${color3}${diskio_read nvme0n1}${goto 235}${color1}Write: ${goto 270}${color3}${diskio_write nvme0n1}
+
+${color2}${offset 0}NETWORK:${color2} 
+${downspeedgraph enp3s0 30,170 9580FF FF5555 00FF00 6272A4 -t} ${alignr}${upspeedgraph enp3s0 30,170 9580FF FF5555 00FF00 6272A4 -t}
+$color2 DOWNLOAD ${alignr} ${color2 83a598}$color2 UPLOAD
+$color2 ${downspeed enp3s0}/s ${alignr} ${color 83a598}$color2 ${upspeed enp3s0}/s 
+$color2 ${totaldown enp3s0}${alignr}$color2 ${totalup enp3s0}
+
+${color3}Uptime:${color3}${alignr}${uptime}${color3}
+#${color3}Updates:${color3}${alignr}${execpi 600 checkupdates | wc -l} ${color}
+]];
