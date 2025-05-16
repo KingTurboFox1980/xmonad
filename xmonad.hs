@@ -1,4 +1,4 @@
--- May 15, 2025 --
+-- May 16, 2025 --
 -- https://github.com/KingTurboFox1980/xmonad.git --
 
 import System.IO
@@ -18,6 +18,8 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.Gaps
 import XMonad.Layout.ShowWName
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.Tabbed
+import XMonad.Layout.MultiColumns
 import XMonad.Layout.Fullscreen (fullscreenFull)
 import XMonad.Layout.CircleEx
 import XMonad.Layout.Spiral (spiral)
@@ -65,7 +67,26 @@ myBorderWidth = 2
 myLayout = spacingRaw True (Border 0 0 0 0) True (Border 5 5 5 5) True $
            smartBorders $
            avoidStruts $
-           layoutHook def
+           tiled |||
+           Mirror tiled |||
+           Full |||
+           multiCol [1] 1 0.01 (-0.5) |||
+           ThreeCol nmaster delta (1/3) |||
+           ThreeColMid nmaster delta ratio |||
+           simpleTabbed
+  where
+      -- Default tiling algorithm partitions the screen into two panes
+      tiled   = Tall nmaster delta ratio
+
+      -- Number of windows in the master pane
+      nmaster = 1
+
+      -- Proportion of screen occupied by master pane
+      ratio   = 1/2
+
+      -- Percent of screen to increment by when resizing panes
+      delta   = 3/100
+
 
 -------------------------------------------------------------------------
 -- Window Management Hook --
@@ -85,8 +106,21 @@ myManageHook = composeAll . concat $
     , [className =? "rclone-browser" --> doFloat]
     , [className =? "Conky" --> doIgnore]
     , [title =? "system_conky" --> doIgnore]
-    , [isFullscreen --> doFullFloat]
+    , [isFullscreen --> (doF W.focusDown <+> doFullFloat)]
     , [manageDocks]
+    , [className =? "Org.gnome.Evolution"       --> doShift "1" <+> doF (W.greedyView "1")]
+    , [className =? "Vivaldi-stable"            --> doShift "2" <+> doF (W.greedyView "2")]
+    , [className =? "Microsoft-edge"            --> doShift "2" <+> doF (W.greedyView "2")]
+    , [className =? "Firefox"                   --> doShift "2" <+> doF (W.greedyView "2")]
+    , [className =? "Code"                      --> doShift "3" <+> doF (W.greedyView "3")]
+    , [className =? ""                          --> doShift "9" <+> doF (W.greedyView "9")]
+    , [resource  =? "desktop_window"            --> doIgnore]
+    , [className =? "Galculator"                --> doFloat]
+    , [className =? "Steam"                     --> doFloat]
+    , [className =? "Gimp"                      --> doFloat]
+    , [resource  =? "gpicview"                  --> doFloat]
+    , [className =? "MPlayer"                   --> doFloat]
+    , [className =? ".virt-manager-wrapped"     --> doShift "4" <+> doF (W.greedyView "4")]
     ]
 
     where
